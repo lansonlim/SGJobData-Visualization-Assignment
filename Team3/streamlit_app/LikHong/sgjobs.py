@@ -40,8 +40,18 @@ st.markdown("""
         border-left: 4px solid #667eea;
         padding: 1rem;
         margin: 0.5rem 0;
-        background: #f8f9fa;
+        background: #1e1e1e;
         border-radius: 5px;
+        color: #e0e0e0;
+    }
+    .job-card h4 {
+        color: #ffffff;
+    }
+    .job-card p {
+        color: #b0b0b0;
+    }
+    .job-card strong {
+        color: #e0e0e0;
     }
     .stTabs [data-baseweb="tab-list"] {
         gap: 2rem;
@@ -705,6 +715,88 @@ def main():
             df_filtered = df_filtered[df_filtered['overall_score'] >= min_match_score]
             
             st.markdown(f"**Showing {len(df_filtered)} jobs** (sorted by match score)")
+            
+            # Add visualizations for filtered results
+            if len(df_filtered) > 0:
+                st.markdown("---")
+                
+                # Top 10 Match Scores Chart
+                col_chart1, col_chart2 = st.columns(2)
+                
+                with col_chart1:
+                    st.markdown("#### 📊 Top 10 Match Scores")
+                    top_10_filtered = df_filtered.head(10)
+                    
+                    # Create horizontal bar chart for match scores
+                    fig_matches = px.bar(
+                        top_10_filtered,
+                        y=top_10_filtered['title'].str[:40] + '...',
+                        x='overall_score',
+                        orientation='h',
+                        labels={'overall_score': 'Match Score', 'y': 'Job Title'},
+                        color='overall_score',
+                        color_continuous_scale='RdYlGn',
+                        range_color=[0, 1]
+                    )
+                    fig_matches.update_layout(
+                        height=400,
+                        showlegend=False,
+                        yaxis={'categoryorder': 'total ascending'}
+                    )
+                    fig_matches.update_traces(
+                        hovertemplate='<b>%{y}</b><br>Match: %{x:.1%}<extra></extra>'
+                    )
+                    st.plotly_chart(fig_matches, use_container_width=True)
+                
+                with col_chart2:
+                    st.markdown("#### 💰 Salary Distribution")
+                    
+                    # Salary histogram
+                    fig_salary = px.histogram(
+                        df_filtered,
+                        x='avg_salary',
+                        nbins=20,
+                        labels={'avg_salary': 'Average Salary (SGD)', 'count': 'Number of Jobs'},
+                        color_discrete_sequence=['#667eea']
+                    )
+                    fig_salary.update_layout(
+                        height=400,
+                        showlegend=False,
+                        bargap=0.1
+                    )
+                    fig_salary.update_traces(
+                        hovertemplate='Salary: $%{x:,.0f}<br>Jobs: %{y}<extra></extra>'
+                    )
+                    st.plotly_chart(fig_salary, use_container_width=True)
+                
+                # Additional insights
+                col_insight1, col_insight2, col_insight3 = st.columns(3)
+                
+                with col_insight1:
+                    avg_match = df_filtered['overall_score'].mean()
+                    st.metric(
+                        "Average Match Score",
+                        f"{avg_match:.1%}",
+                        help="Average match score across filtered jobs"
+                    )
+                
+                with col_insight2:
+                    median_salary = df_filtered['avg_salary'].median()
+                    st.metric(
+                        "Median Salary",
+                        f"${median_salary:,.0f}",
+                        help="Median salary of filtered jobs"
+                    )
+                
+                with col_insight3:
+                    avg_competition = df_filtered['applications'].mean()
+                    st.metric(
+                        "Avg Competition",
+                        f"{int(avg_competition)} apps",
+                        help="Average number of applicants"
+                    )
+                
+                st.markdown("---")
             
             # Display top recommendations
             for idx, (_, job) in enumerate(df_filtered.head(20).iterrows(), 1):
