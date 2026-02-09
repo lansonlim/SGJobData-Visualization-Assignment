@@ -183,17 +183,21 @@ with col3:
     st.markdown(
         """
     <div class="card">
-        <div class="card-title">Dashboard 3</div>
+        <div class="card-title">Job Market Insights</div>
         <div class="card-author">by Ben Au</div>
         <div class="card-desc">
-            Coming soon — Ben's visualization will appear here once ready.
-            Check the sidebar for updates.
+            Salary distribution analytics with violin plots, box & whisker charts,
+            and position-level vs salary heatmaps. Features interactive filters
+            for position level, category, employment type, and job status.
         </div>
-        <span class="badge badge-amber">Coming Soon</span>
+        <span class="badge badge-blue">Salary Distributions</span>
+        <span class="badge badge-green">Heatmaps</span>
+        <span class="badge badge-purple">Violin Plots</span>
     </div>
     """,
         unsafe_allow_html=True,
     )
+    st.page_link("pages/4_Job_Market_Insights_(Ben_Au).py", label="Open Job Market Insights", icon="📈")
 
 with col4:
     st.markdown(
@@ -256,7 +260,7 @@ st.markdown(
 )
 
 team = [
-    ("Ben Au", "Dashboard 3"),
+    ("Ben Au", "Job Market Insights"),
     ("Huey Ling", "Dashboard 4"),
     ("Kendra Lai", "Dashboard 5"),
     ("Lanson", "Dashboard 6"),
