@@ -203,17 +203,20 @@ with col4:
     st.markdown(
         """
     <div class="card">
-        <div class="card-title">Dashboard 4</div>
+        <div class="card-title">Top Hiring Companies</div>
         <div class="card-author">by Huey Ling</div>
         <div class="card-desc">
-            Coming soon — Huey Ling's visualization will appear here once ready.
-            Check the sidebar for updates.
+            Explore the most active employers, hiring patterns by month,
+            and a salary-focused bubble chart across top categories.
         </div>
-        <span class="badge badge-amber">Coming Soon</span>
+        <span class="badge badge-blue">Top Companies</span>
+        <span class="badge badge-green">Hiring Trends</span>
+        <span class="badge badge-amber">Salary Focus</span>
     </div>
     """,
         unsafe_allow_html=True,
     )
+    st.page_link("pages/5_Top_Companies_(Huey_Ling).py", label="Open Top Companies", icon="🏢")
 
 col5, col6 = st.columns(2)
 
@@ -261,7 +264,7 @@ st.markdown(
 
 team = [
     ("Ben Au", "Job Market Insights"),
-    ("Huey Ling", "Dashboard 4"),
+    ("Huey Ling", "Top Hiring Companies"),
     ("Kendra Lai", "Dashboard 5"),
     ("Lanson", "Dashboard 6"),
     ("Lik Hong", "Job Concierge"),
